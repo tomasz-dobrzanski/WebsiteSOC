@@ -22,7 +22,7 @@ export const exportToPowerPoint = async () => {
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     // Create new presentation
-    const pptx = new PptxGenJS();
+    const pptx = new PptxGenJS.default();
     
     // Set presentation properties
     pptx.author = 'UCMS';
