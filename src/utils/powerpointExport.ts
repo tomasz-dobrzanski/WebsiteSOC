@@ -110,8 +110,8 @@ export const exportToPowerPoint = async () => {
     // Generate and download the file
     console.log('Generating PowerPoint file...');
     
-    // Use the stream method which should work better
-    const pptxBlob = await pptx.stream();
+    // Use output('blob') method for browser compatibility
+    const pptxBlob = await pptx.output('blob');
     
     // Create download link
     const url = URL.createObjectURL(pptxBlob);
