@@ -3,108 +3,98 @@ import jsPDF from 'jspdf';
 
 export const exportToPDF = async () => {
   try {
-    console.log('Starting PDF export...');
+    // Wait for all animations and images to load
+    await new Promise(resolve => setTimeout(resolve, 3000));
     
-    // Show loading indicator
-    const loadingDiv = document.createElement('div');
-    loadingDiv.innerHTML = `
-      <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;">
-        <div>Generowanie PDF... Proszę czekać...</div>
-      </div>
-    `;
-    document.body.appendChild(loadingDiv);
-
-    // Wait for all content to load
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Scroll to top
+    // Scroll to top to ensure everything is visible
     window.scrollTo(0, 0);
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 500));
 
-    // Get all sections
-    const sectionSelectors = ['#hero', '#features', '#ai-processing', '#workflow', '#deployment', '#benefits'];
-    const sections = sectionSelectors.map(selector => document.querySelector(selector)).filter(Boolean) as HTMLElement[];
+    // Get all sections to export
+    const sections = [
+      document.querySelector('#hero'),
+      document.querySelector('#features'),
+      document.querySelector('#ai-processing'),
+      document.querySelector('#workflow'),
+      document.querySelector('#deployment'),
+      document.querySelector('#benefits')
+    ].filter(Boolean);
 
     if (sections.length === 0) {
       throw new Error('No sections found to export');
     }
 
-    console.log(`Found ${sections.length} sections to export`);
-
-    const pdf = new jsPDF('l', 'mm', 'a4'); // Landscape A4
+    const pdf = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
 
     for (let i = 0; i < sections.length; i++) {
-      const section = sections[i];
-      console.log(`Processing section ${i + 1}/${sections.length}`);
+      const section = sections[i] as HTMLElement;
       
-      // Update loading message
-      loadingDiv.innerHTML = `
-        <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;">
-          <div>Przetwarzanie sekcji ${i + 1}/${sections.length}...</div>
-        </div>
-      `;
+      // Scroll to section to ensure it's in view
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // Scroll to section
-      section.scrollIntoView({ behavior: 'instant', block: 'start' });
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Temporarily modify styles for better PDF rendering
+      const originalStyle = section.style.cssText;
+      const originalOverflow = document.body.style.overflow;
+      
+      // Ensure section is fully visible
+      section.style.minHeight = '100vh';
+      section.style.display = 'flex';
+      section.style.flexDirection = 'column';
+      section.style.justifyContent = 'center';
+      section.style.backgroundColor = section.style.backgroundColor || 'white';
+      document.body.style.overflow = 'visible';
 
-      // Capture section
+      // Wait for any remaining animations
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Capture the section with high quality
       const canvas = await html2canvas(section, {
-        scale: 1.2,
+        scale: 2,
         useCORS: true,
         allowTaint: true,
-        backgroundColor: '#ffffff',
+        backgroundColor: null,
         width: section.scrollWidth,
-        height: section.scrollHeight,
-        windowWidth: 1920,
-        windowHeight: 1080,
+        height: Math.max(section.scrollHeight, window.innerHeight),
+        windowWidth: window.innerWidth,
+        windowHeight: window.innerHeight,
         scrollX: 0,
         scrollY: 0
       });
 
-      // Calculate dimensions to fit page
+      // Restore original styles
+      section.style.cssText = originalStyle;
+      document.body.style.overflow = originalOverflow;
+
+      // Calculate dimensions to fit page (landscape)
       const imgWidth = pageWidth - 20; // 10mm margin on each side
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
-      // Add new page if not first
+      // Add new page if not the first section
       if (i > 0) {
         pdf.addPage();
       }
 
       // Add image to PDF
-      const imgData = canvas.toDataURL('image/jpeg', 0.9);
+      const imgData = canvas.toDataURL('image/png', 1.0);
       
       if (imgHeight <= pageHeight - 20) {
-        // Center vertically if it fits
-        pdf.addImage(imgData, 'JPEG', 10, (pageHeight - imgHeight) / 2, imgWidth, imgHeight);
+        // Image fits on one page
+        pdf.addImage(imgData, 'PNG', 10, (pageHeight - imgHeight) / 2, imgWidth, imgHeight);
       } else {
-        // Scale to fit height if too tall
+        // Scale down to fit page
         const scaledHeight = pageHeight - 20;
         const scaledWidth = (canvas.width * scaledHeight) / canvas.height;
-        pdf.addImage(imgData, 'JPEG', (pageWidth - scaledWidth) / 2, 10, scaledWidth, scaledHeight);
+        pdf.addImage(imgData, 'PNG', (pageWidth - scaledWidth) / 2, 10, scaledWidth, scaledHeight);
       }
     }
 
-    // Remove loading indicator
-    document.body.removeChild(loadingDiv);
-
-    // Save PDF
-    pdf.save('UCMS-Prezentacja.pdf');
-    console.log('PDF export completed successfully');
-    
-    // Show success message
-    alert('PDF został pomyślnie wygenerowany i pobrany!');
-    
+    // Save the PDF
+    pdf.save('UCMS-Presentation.pdf');
   } catch (error) {
-    // Remove loading indicator if it exists
-    const loadingDiv = document.querySelector('div[style*="position: fixed"]');
-    if (loadingDiv && loadingDiv.parentNode) {
-      loadingDiv.parentNode.removeChild(loadingDiv);
-    }
-    
     console.error('Error generating PDF:', error);
-    alert('Wystąpił błąd podczas generowania PDF. Spróbuj ponownie.');
+    throw new Error('Wystąpił błąd podczas generowania PDF. Spróbuj ponownie.');
   }
 };

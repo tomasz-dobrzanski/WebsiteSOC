@@ -8,9 +8,9 @@ const PowerPointExport: React.FC = () => {
   const handlePDFExport = async () => {
     try {
       await exportToPDF();
-      // Success message handled in the function
     } catch (error) {
       console.error('Error exporting to PDF:', error);
+      alert('Wystąpił błąd podczas eksportu PDF. Spróbuj ponownie.');
     }
   };
 
@@ -19,6 +19,7 @@ const PowerPointExport: React.FC = () => {
       await exportToPowerPoint();
     } catch (error) {
       console.error('Error exporting to PowerPoint:', error);
+      alert('Wystąpił błąd podczas eksportu PowerPoint. Spróbuj ponownie.');
     }
   };
 
