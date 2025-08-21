@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X, Zap, Download } from 'lucide-react';
-import { exportToPowerPoint } from '../utils/powerpointExport';
+import { Menu, X, Zap, FileDown } from 'lucide-react';
+import { exportToPDF } from '../utils/pdfExport';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const handlePowerPointExport = () => {
+  const handlePDFExport = async () => {
     try {
-      exportToPowerPoint();
+      await exportToPDF();
     } catch (error) {
-      console.error('Error exporting to PowerPoint:', error);
-      alert('Wystąpił błąd podczas eksportu prezentacji. Spróbuj ponownie.');
+      console.error('Error exporting to PDF:', error);
+      alert('Wystąpił błąd podczas eksportu PDF. Spróbuj ponownie.');
     }
   };
 
@@ -59,20 +59,13 @@ const Navbar: React.FC = () => {
               </a>
             ))}
             <motion.button
-              onClick={handlePowerPointExport}
+              onClick={handlePDFExport}
               className="flex items-center space-x-2 text-accent-600 hover:text-accent-700 transition-colors duration-200 font-medium"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Download size={18} />
-              <span>PowerPoint</span>
-            </motion.button>
-            <motion.button
-              className="bg-primary-600 text-white px-6 py-2 rounded-full font-medium hover:bg-primary-700 transition-colors duration-200"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Get Started
+              <FileDown size={18} />
+              <span>Export PDF</span>
             </motion.button>
           </div>
 
@@ -107,13 +100,13 @@ const Navbar: React.FC = () => {
               ))}
               <button
                 onClick={() => {
-                  handlePowerPointExport();
+                  handlePDFExport();
                   setIsOpen(false);
                 }}
-                className="flex items-center space-x-2 px-3 py-2 text-accent-600 hover:text-accent-700 hover:bg-gray-50 rounded-md"
+                className="flex items-center space-x-2 px-3 py-2 text-accent-600 hover:text-accent-700 hover:bg-gray-50 rounded-md w-full"
               >
-                <Download size={18} />
-                <span>Pobierz PowerPoint</span>
+                <FileDown size={18} />
+                <span>Export PDF</span>
               </button>
             </div>
           </motion.div>

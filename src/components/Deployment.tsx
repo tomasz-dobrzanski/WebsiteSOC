@@ -16,18 +16,14 @@ const Deployment: React.FC = () => {
       subtitle: 'Full Control & Security',
       description: 'Deploy UCMS on your own infrastructure for maximum security and control',
       features: ['Full data control', 'Custom security policies', 'Internal hosting', 'Compliance ready'],
-      price: 'Custom pricing',
-      recommended: false,
       gradient: 'from-gray-600 to-gray-700'
     },
     {
       icon: Cloud,
       title: 'SaaS Model',
-      subtitle: 'Recommended Solution',
+      subtitle: 'Cloud-Based Solution',
       description: 'Cloud-based access with easy rollout, automatic updates, and global scalability',
       features: ['Instant deployment', 'Auto updates', 'Global availability', 'Elastic scaling'],
-      price: 'From $99/month',
-      recommended: true,
       gradient: 'from-primary-500 to-secondary-500'
     }
   ];
@@ -84,19 +80,8 @@ const Deployment: React.FC = () => {
                 initial={{ opacity: 0, y: 50 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: index * 0.2 }}
-                className={`relative rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 ${
-                  option.recommended 
-                    ? 'bg-gradient-to-br from-primary-50 to-secondary-50 border-2 border-primary-200 transform scale-105' 
-                    : 'bg-white hover:bg-gray-50'
-                }`}
+                className="relative rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 bg-white hover:bg-gray-50"
               >
-                {option.recommended && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-gradient-to-r from-primary-500 to-secondary-500 text-white px-4 py-2 rounded-full text-sm font-bold">
-                      RECOMMENDED
-                    </span>
-                  </div>
-                )}
 
                 <div className="text-center mb-6">
                   <motion.div
@@ -106,7 +91,7 @@ const Deployment: React.FC = () => {
                     <Icon size={36} className="text-white" />
                   </motion.div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">{option.title}</h3>
-                  <p className="text-lg font-semibold text-primary-600 mb-3">{option.subtitle}</p>
+                  <p className="text-lg font-semibold text-gray-600 mb-3">{option.subtitle}</p>
                   <p className="text-gray-600">{option.description}</p>
                 </div>
 
@@ -126,18 +111,7 @@ const Deployment: React.FC = () => {
                 </div>
 
                 <div className="text-center border-t pt-6">
-                  <div className="text-2xl font-bold text-gray-900 mb-4">{option.price}</div>
-                  <motion.button
-                    className={`w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300 ${
-                      option.recommended
-                        ? 'bg-gradient-to-r from-primary-500 to-secondary-500 text-white hover:from-primary-600 hover:to-secondary-600 shadow-lg'
-                        : 'bg-gray-900 text-white hover:bg-gray-800'
-                    }`}
-                    whileHover={{ scale: 1.02, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Get Started
-                  </motion.button>
+                  <p className="text-gray-600">Contact us for implementation details</p>
                 </div>
               </motion.div>
             );

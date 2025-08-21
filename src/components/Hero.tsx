@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDown, BarChart3, Zap, Brain } from 'lucide-react';
+import { ChevronDown, BarChart3, Zap, Brain, Building2 } from 'lucide-react';
 
 const Hero: React.FC = () => {
   const stats = [
@@ -11,7 +11,7 @@ const Hero: React.FC = () => {
   ];
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary-50 via-white to-secondary-50">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary-50 via-white to-secondary-50">
       {/* Background Animation */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary-300 rounded-full mix-blend-multiply filter blur-xl animate-float"></div>
@@ -20,69 +20,71 @@ const Hero: React.FC = () => {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <motion.h1 
-            className="text-5xl md:text-7xl font-bold text-gray-900 mb-6"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
-              UCMS
-            </span>
-          </motion.h1>
-          
-          <motion.p 
-            className="text-xl md:text-2xl text-gray-600 mb-4 font-light"
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            transition={{ duration: 0.8 }}
+            className="text-center lg:text-left"
           >
-            Utility Cost Management System
-          </motion.p>
-          
-          <motion.p 
-            className="text-lg md:text-xl text-gray-700 mb-8 max-w-3xl mx-auto leading-relaxed"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            A modern digital platform for monitoring, analyzing, and optimizing utility usage and costs across buildings and facilities with AI-driven automation.
-          </motion.p>
-
-          <motion.div 
-            className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            <motion.button 
-              className="bg-primary-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
+            <motion.h1 
+              className="text-5xl md:text-7xl font-bold text-gray-900 mb-6"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <span className="flex items-center justify-center space-x-2">
-                <Zap size={20} />
-                <span>Start Free Trial</span>
+              <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+                UCMS
               </span>
-            </motion.button>
-            <motion.button 
-              className="border-2 border-primary-600 text-primary-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-primary-600 hover:text-white transition-all duration-300"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
+            </motion.h1>
+            
+            <motion.p 
+              className="text-xl md:text-2xl text-gray-600 mb-4 font-light"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Watch Demo
-            </motion.button>
+              Utility Cost Management System
+            </motion.p>
+            
+            <motion.p 
+              className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
+              A modern digital platform for monitoring, analyzing, and optimizing utility usage and costs across buildings and facilities with AI-driven automation.
+            </motion.p>
           </motion.div>
-        </motion.div>
+          {/* Hero Image */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="relative"
+          >
+            <div className="relative w-full h-96 bg-gradient-to-br from-primary-100 to-secondary-100 rounded-3xl shadow-2xl overflow-hidden">
+              <img 
+                src="https://images.pexels.com/photos/159888/pexels-photo-159888.jpeg?auto=compress&cs=tinysrgb&w=800" 
+                alt="Modern building with energy management systems"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary-900/20 to-transparent"></div>
+              <div className="absolute bottom-6 left-6 right-6">
+                <div className="bg-white/90 backdrop-blur-sm rounded-xl p-4">
+                  <div className="flex items-center space-x-3">
+                    <Building2 className="text-primary-600" size={24} />
+                    <span className="text-gray-800 font-semibold">Smart Building Management</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
 
         {/* Stats */}
         <motion.div 
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mb-16"
+          className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mb-16 mt-16"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.0 }}

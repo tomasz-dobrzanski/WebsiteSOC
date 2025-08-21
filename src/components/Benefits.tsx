@@ -158,28 +158,11 @@ const Benefits: React.FC = () => {
           className="text-center mt-16"
         >
           <h3 className="text-3xl font-bold text-gray-900 mb-6">
-            Ready to Transform Your Utility Management?
+            Transform Your Utility Management
           </h3>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Join organizations worldwide who trust UCMS to optimize their energy costs and streamline their utility operations.
           </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <motion.button
-              className="bg-primary-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Start Free Trial
-            </motion.button>
-            <motion.button
-              className="border-2 border-primary-600 text-primary-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-primary-600 hover:text-white transition-all duration-300"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Schedule Demo
-            </motion.button>
-          </div>
         </motion.div>
       </div>
     </section>

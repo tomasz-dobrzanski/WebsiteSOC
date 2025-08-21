@@ -1,15 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Download, FileText } from 'lucide-react';
-import { exportToPowerPoint } from '../utils/powerpointExport';
+import { FileDown, FileText } from 'lucide-react';
+import { exportToPDF } from '../utils/pdfExport';
 
 const PowerPointExport: React.FC = () => {
-  const handleExport = () => {
+  const handleExport = async () => {
     try {
-      exportToPowerPoint();
+      await exportToPDF();
     } catch (error) {
-      console.error('Error exporting to PowerPoint:', error);
-      alert('Wystąpił błąd podczas eksportu prezentacji. Spróbuj ponownie.');
+      console.error('Error exporting to PDF:', error);
+      alert('Wystąpił błąd podczas eksportu PDF. Spróbuj ponownie.');
     }
   };
 
@@ -28,15 +28,15 @@ const PowerPointExport: React.FC = () => {
       >
         <div className="flex items-center space-x-2">
           <FileText size={20} className="group-hover:rotate-12 transition-transform duration-300" />
-          <Download size={18} className="group-hover:translate-y-1 transition-transform duration-300" />
+          <FileDown size={18} className="group-hover:translate-y-1 transition-transform duration-300" />
         </div>
-        <span className="font-semibold">Pobierz PowerPoint</span>
+        <span className="font-semibold">Export PDF</span>
       </motion.button>
       
       {/* Tooltip */}
       <div className="absolute bottom-full right-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
         <div className="bg-gray-900 text-white text-sm px-3 py-2 rounded-lg whitespace-nowrap">
-          Eksportuj prezentację do PowerPoint
+          Eksportuj stronę do PDF
           <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
         </div>
       </div>

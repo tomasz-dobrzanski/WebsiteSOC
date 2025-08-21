@@ -6,7 +6,6 @@ import AIProcessing from './components/AIProcessing';
 import Workflow from './components/Workflow';
 import Deployment from './components/Deployment';
 import Benefits from './components/Benefits';
-import Footer from './components/Footer';
 import PowerPointExport from './components/PowerPointExport';
 
 function App() {
@@ -19,7 +18,6 @@ function App() {
       <Workflow />
       <Deployment />
       <Benefits />
-      <Footer />
       <PowerPointExport />
     </div>
   );
