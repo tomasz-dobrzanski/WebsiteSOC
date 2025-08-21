@@ -65,7 +65,7 @@ const Hero: React.FC = () => {
           >
             <div className="relative w-full h-96 bg-gradient-to-br from-primary-100 to-secondary-100 rounded-3xl shadow-2xl overflow-hidden">
               <img 
-                src="https://images.pexels.com/photos/159888/pexels-photo-159888.jpeg?auto=compress&cs=tinysrgb&w=800" 
+                src="https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=800" 
                 alt="Modern building with energy management systems"
                 className="w-full h-full object-cover"
               />

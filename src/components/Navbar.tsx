@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X, Zap, FileDown } from 'lucide-react';
+import { Menu, X, Zap, FileDown, FileText } from 'lucide-react';
 import { exportToPDF } from '../utils/pdfExport';
+import { exportToPowerPoint } from '../utils/powerpointExport';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +14,15 @@ const Navbar: React.FC = () => {
     } catch (error) {
       console.error('Error exporting to PDF:', error);
       alert('Wystąpił błąd podczas eksportu PDF. Spróbuj ponownie.');
+    }
+  };
+
+  const handlePowerPointExport = async () => {
+    try {
+      await exportToPowerPoint();
+    } catch (error) {
+      console.error('Error exporting to PowerPoint:', error);
+      alert('Wystąpił błąd podczas eksportu PowerPoint. Spróbuj ponownie.');
     }
   };
 
@@ -60,12 +70,21 @@ const Navbar: React.FC = () => {
             ))}
             <motion.button
               onClick={handlePDFExport}
-              className="flex items-center space-x-2 text-accent-600 hover:text-accent-700 transition-colors duration-200 font-medium"
+              className="flex items-center space-x-2 text-primary-600 hover:text-primary-700 transition-colors duration-200 font-medium"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <FileDown size={18} />
               <span>Export PDF</span>
+            </motion.button>
+            <motion.button
+              onClick={handlePowerPointExport}
+              className="flex items-center space-x-2 text-accent-600 hover:text-accent-700 transition-colors duration-200 font-medium"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FileText size={18} />
+              <span>Export PPT</span>
             </motion.button>
           </div>
 
@@ -107,6 +126,16 @@ const Navbar: React.FC = () => {
               >
                 <FileDown size={18} />
                 <span>Export PDF</span>
+              </button>
+              <button
+                onClick={() => {
+                  handlePowerPointExport();
+                  setIsOpen(false);
+                }}
+                className="flex items-center space-x-2 px-3 py-2 text-accent-600 hover:text-accent-700 hover:bg-gray-50 rounded-md w-full"
+              >
+                <FileText size={18} />
+                <span>Export PPT</span>
               </button>
             </div>
           </motion.div>

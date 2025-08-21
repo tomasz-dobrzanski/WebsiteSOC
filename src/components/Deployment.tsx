@@ -109,10 +109,6 @@ const Deployment: React.FC = () => {
                     </motion.div>
                   ))}
                 </div>
-
-                <div className="text-center border-t pt-6">
-                  <p className="text-gray-600">Contact us for implementation details</p>
-                </div>
               </motion.div>
             );
           })}
