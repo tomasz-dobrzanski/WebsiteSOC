@@ -52,7 +52,7 @@ export const exportToPDF = async () => {
 
       // Capture section
       const canvas = await html2canvas(section, {
-        scale: 1.5,
+        scale: 1.2,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
@@ -64,8 +64,8 @@ export const exportToPDF = async () => {
         scrollY: 0
       });
 
-      // Calculate dimensions
-      const imgWidth = pageWidth - 20; // 10mm margin
+      // Calculate dimensions to fit page
+      const imgWidth = pageWidth - 20; // 10mm margin on each side
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
       // Add new page if not first
@@ -74,11 +74,13 @@ export const exportToPDF = async () => {
       }
 
       // Add image to PDF
-      const imgData = canvas.toDataURL('image/jpeg', 0.95);
+      const imgData = canvas.toDataURL('image/jpeg', 0.9);
       
       if (imgHeight <= pageHeight - 20) {
+        // Center vertically if it fits
         pdf.addImage(imgData, 'JPEG', 10, (pageHeight - imgHeight) / 2, imgWidth, imgHeight);
       } else {
+        // Scale to fit height if too tall
         const scaledHeight = pageHeight - 20;
         const scaledWidth = (canvas.width * scaledHeight) / canvas.height;
         pdf.addImage(imgData, 'JPEG', (pageWidth - scaledWidth) / 2, 10, scaledWidth, scaledHeight);
@@ -92,11 +94,16 @@ export const exportToPDF = async () => {
     pdf.save('UCMS-Prezentacja.pdf');
     console.log('PDF export completed successfully');
     
+    // Show success message
+    setTimeout(() => {
+      alert('PDF został pomyślnie wygenerowany i pobrany!');
+    }, 500);
+    
   } catch (error) {
     // Remove loading indicator if it exists
     const loadingDiv = document.querySelector('div[style*="position: fixed"]');
-    if (loadingDiv) {
-      document.body.removeChild(loadingDiv);
+    if (loadingDiv && loadingDiv.parentNode) {
+      loadingDiv.parentNode.removeChild(loadingDiv);
     }
     
     console.error('Error generating PDF:', error);

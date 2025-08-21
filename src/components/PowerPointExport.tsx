@@ -16,10 +16,12 @@ const PowerPointExport: React.FC = () => {
 
   const handlePowerPointExport = async () => {
     try {
+      console.log('Starting PowerPoint export from floating button...');
       await exportToPowerPoint();
-      // Success message handled in the function
+      console.log('PowerPoint export completed from floating button');
     } catch (error) {
       console.error('Error exporting to PowerPoint:', error);
+      alert('Wystąpił błąd podczas eksportu PowerPoint');
     }
   };
 

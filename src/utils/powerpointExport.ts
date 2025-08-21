@@ -17,9 +17,11 @@ export const exportToPowerPoint = async () => {
     // Wait for content to load
     await new Promise(resolve => setTimeout(resolve, 2000));
     
+    // Scroll to top
     window.scrollTo(0, 0);
     await new Promise(resolve => setTimeout(resolve, 1000));
 
+    // Create new presentation
     const pptx = new PptxGenJS();
     
     // Set presentation properties
@@ -28,7 +30,7 @@ export const exportToPowerPoint = async () => {
     pptx.title = 'UCMS - System Zarządzania Kosztami Mediów';
     pptx.subject = 'Automatyzacja AI dla optymalizacji kosztów mediów';
 
-    // Define sections
+    // Define sections to capture
     const sections = [
       { id: '#hero', title: 'UCMS - System Zarządzania Kosztami Mediów' },
       { id: '#features', title: 'Przegląd Głównych Funkcji' },
@@ -56,24 +58,26 @@ export const exportToPowerPoint = async () => {
         </div>
       `;
 
-      // Scroll to section
+      // Scroll to section and wait
       section.scrollIntoView({ behavior: 'instant', block: 'start' });
       await new Promise(resolve => setTimeout(resolve, 1500));
 
-      // Capture section
+      // Capture section with better settings
       const canvas = await html2canvas(section, {
-        scale: 1.2,
+        scale: 1,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
         width: section.scrollWidth,
         height: section.scrollHeight,
         windowWidth: 1920,
-        windowHeight: 1080
+        windowHeight: 1080,
+        scrollX: 0,
+        scrollY: 0
       });
 
       // Convert to base64
-      const imgData = canvas.toDataURL('image/png', 0.9);
+      const imgData = canvas.toDataURL('image/png', 0.8);
 
       // Add slide
       const slide = pptx.addSlide();
@@ -90,12 +94,12 @@ export const exportToPowerPoint = async () => {
         align: 'center'
       });
       
-      // Add image
+      // Add image - full slide minus title area
       slide.addImage({
         data: imgData,
-        x: 0.5,
+        x: 0.2,
         y: 1.2,
-        w: 12.5,
+        w: 12.6,
         h: 6.8
       });
     }
@@ -103,15 +107,41 @@ export const exportToPowerPoint = async () => {
     // Remove loading indicator
     document.body.removeChild(loadingDiv);
 
-    // Save PowerPoint
-    await pptx.writeFile({ fileName: 'UCMS-Prezentacja.pptx' });
-    console.log('PowerPoint export completed successfully');
+    // Generate and download the file
+    console.log('Generating PowerPoint file...');
+    
+    try {
+      // Use writeFile method which should trigger download
+      await pptx.writeFile({ fileName: 'UCMS-Prezentacja.pptx' });
+      console.log('PowerPoint file generated successfully');
+      
+      // Show success message after a short delay
+      setTimeout(() => {
+        alert('Prezentacja PowerPoint została pomyślnie wygenerowana i pobrana!');
+      }, 500);
+      
+    } catch (downloadError) {
+      console.error('Error during file generation:', downloadError);
+      
+      // Fallback: try to generate blob and create download link
+      const blob = await pptx.write('blob');
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'UCMS-Prezentacja.pptx';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      
+      alert('Prezentacja PowerPoint została wygenerowana (metoda zapasowa)!');
+    }
     
   } catch (error) {
     // Remove loading indicator if it exists
     const loadingDiv = document.querySelector('div[style*="position: fixed"]');
-    if (loadingDiv) {
-      document.body.removeChild(loadingDiv);
+    if (loadingDiv && loadingDiv.parentNode) {
+      loadingDiv.parentNode.removeChild(loadingDiv);
     }
     
     console.error('Error generating PowerPoint:', error);
