@@ -22,12 +22,9 @@ const Navbar: React.FC = () => {
 
   const handlePowerPointExport = async () => {
     try {
-      console.log('Starting PowerPoint export from navbar...');
       await exportToPowerPoint();
-      console.log('PowerPoint export completed from navbar');
     } catch (error) {
       console.error('Error exporting to PowerPoint:', error);
-      alert('Wystąpił błąd podczas eksportu PowerPoint');
     }
   };
 

@@ -95,9 +95,7 @@ export const exportToPDF = async () => {
     console.log('PDF export completed successfully');
     
     // Show success message
-    setTimeout(() => {
-      alert('PDF został pomyślnie wygenerowany i pobrany!');
-    }, 500);
+    alert('PDF został pomyślnie wygenerowany i pobrany!');
     
   } catch (error) {
     // Remove loading indicator if it exists

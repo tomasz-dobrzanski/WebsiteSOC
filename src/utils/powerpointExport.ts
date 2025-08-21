@@ -110,32 +110,26 @@ export const exportToPowerPoint = async () => {
     // Generate and download the file
     console.log('Generating PowerPoint file...');
     
-    try {
-      // Use writeFile method which should trigger download
-      await pptx.writeFile({ fileName: 'UCMS-Prezentacja.pptx' });
-      console.log('PowerPoint file generated successfully');
-      
-      // Show success message after a short delay
-      setTimeout(() => {
-        alert('Prezentacja PowerPoint została pomyślnie wygenerowana i pobrana!');
-      }, 500);
-      
-    } catch (downloadError) {
-      console.error('Error during file generation:', downloadError);
-      
-      // Fallback: try to generate blob and create download link
-      const blob = await pptx.write('blob');
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'UCMS-Prezentacja.pptx';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-      
-      alert('Prezentacja PowerPoint została wygenerowana (metoda zapasowa)!');
-    }
+    // Use the stream method which should work better
+    const pptxBlob = await pptx.stream();
+    
+    // Create download link
+    const url = URL.createObjectURL(pptxBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'UCMS-Prezentacja.pptx';
+    link.style.display = 'none';
+    
+    // Add to DOM, click, and remove
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Clean up
+    URL.revokeObjectURL(url);
+    
+    console.log('PowerPoint file generated successfully');
+    alert('Prezentacja PowerPoint została pomyślnie wygenerowana i pobrana!');
     
   } catch (error) {
     // Remove loading indicator if it exists
