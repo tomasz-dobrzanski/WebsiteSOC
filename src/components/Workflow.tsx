@@ -89,17 +89,17 @@ const Workflow: React.FC = () => {
                   {/* Content */}
                   <div className={`lg:w-1/2 ${isEven ? 'lg:text-right' : 'lg:text-left'} text-center`}>
                     <motion.div
-                      className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-r ${step.color} mb-4`}
+                      className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${step.color} mb-6`}
                       whileHover={{ scale: 1.1, rotate: 5 }}
                     >
-                      <Icon size={20} className="text-white" />
+                      <Icon size={28} className="text-white" />
                     </motion.div>
                     
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
                       {step.title}
                     </h3>
                     
-                    <p className="text-gray-600 text-base mb-4 leading-relaxed">
+                    <p className="text-gray-600 text-lg mb-6 leading-relaxed">
                       {step.description}
                     </p>
                     
@@ -121,24 +121,24 @@ const Workflow: React.FC = () => {
                   
                   {/* Central Circle (Desktop) */}
                   <div className="hidden lg:flex w-24 h-24 bg-white border-4 border-gray-200 rounded-full items-center justify-center shadow-xl z-10">
-                    <span className="text-xl font-bold text-gray-700">{index + 1}</span>
+                    <span className="text-2xl font-bold text-gray-700">{index + 1}</span>
                   </div>
                   
                   {/* Visual Element */}
                   <div className="lg:w-1/2 flex justify-center">
                     <motion.div
-                      className="w-48 h-36 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl shadow-lg flex items-center justify-center relative overflow-hidden"
+                      className="w-64 h-48 bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl shadow-xl flex items-center justify-center relative overflow-hidden"
                       whileHover={{ scale: 1.02 }}
                     >
                       <div className={`absolute inset-0 bg-gradient-to-r ${step.color} opacity-10`}></div>
-                      <Icon size={48} className={`text-gray-400 relative z-10`} />
+                      <Icon size={64} className={`text-gray-400 relative z-10`} />
                       
                       {/* Animated dots */}
                       <div className="absolute top-4 right-4">
                         {[...Array(3)].map((_, i) => (
                           <motion.div
                             key={i}
-                            className={`w-2 h-2 rounded-full bg-gradient-to-r ${step.color} mb-1`}
+                            className={`w-3 h-3 rounded-full bg-gradient-to-r ${step.color} mb-1`}
                             animate={{ scale: [1, 1.2, 1] }}
                             transition={{ duration: 1.5, delay: i * 0.2, repeat: Infinity }}
                           />
@@ -151,6 +151,42 @@ const Workflow: React.FC = () => {
             })}
           </div>
         </div>
+
+        {/* Success Metrics */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 1.0 }}
+          className="mt-20 bg-gradient-to-r from-primary-50 to-secondary-50 rounded-3xl p-8 md:p-12"
+        >
+          <h3 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8">
+            Workflow Performance
+          </h3>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { value: '24/7', label: 'Automated Processing' },
+              { value: '< 1min', label: 'Processing Time' },
+              { value: '100%', label: 'Data Accuracy' },
+              { value: '85%', label: 'Time Savings' }
+            ].map((metric, index) => (
+              <motion.div
+                key={metric.label}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={inView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 0.5, delay: 1.2 + index * 0.1 }}
+                className="text-center"
+              >
+                <div className="text-3xl md:text-4xl font-bold text-primary-600 mb-2">
+                  {metric.value}
+                </div>
+                <div className="text-gray-600 font-medium text-sm md:text-base">
+                  {metric.label}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
