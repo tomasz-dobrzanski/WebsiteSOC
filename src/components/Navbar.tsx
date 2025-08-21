@@ -11,18 +11,24 @@ const Navbar: React.FC = () => {
   const handlePDFExport = async () => {
     try {
       await exportToPDF();
+      // Success message
+      setTimeout(() => {
+        alert('PDF został pomyślnie wygenerowany i pobrany!');
+      }, 1000);
     } catch (error) {
       console.error('Error exporting to PDF:', error);
-      alert('Wystąpił błąd podczas eksportu PDF. Spróbuj ponownie.');
     }
   };
 
   const handlePowerPointExport = async () => {
     try {
       await exportToPowerPoint();
+      // Success message
+      setTimeout(() => {
+        alert('Prezentacja PowerPoint została pomyślnie wygenerowana i pobrana!');
+      }, 1000);
     } catch (error) {
       console.error('Error exporting to PowerPoint:', error);
-      alert('Wystąpił błąd podczas eksportu PowerPoint. Spróbuj ponownie.');
     }
   };
 
